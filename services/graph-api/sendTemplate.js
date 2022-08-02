@@ -31,7 +31,7 @@ exports.sendGenericTemplate = async (recipientId, respBody) => {
     };
     await axios({
       url: "https://graph.facebook.com/v2.6/me/messages",
-      qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+      params: { access_token: process.env.PAGE_ACCESS_TOKEN },
       method: "POST",
       data: {
         recipient: { id: recipientId },
@@ -40,6 +40,6 @@ exports.sendGenericTemplate = async (recipientId, respBody) => {
     });
   } catch (e) {
     console.log("Error sending message: " + response.error)
-    throw e;
+    // throw e;
   }
 };

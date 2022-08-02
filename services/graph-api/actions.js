@@ -4,7 +4,7 @@ exports.action = async (recipientId) => {
   try {
     return axios({
       url: `${process.env.GRAPH_API_ENDPOINT}/me/messages`,
-      qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+      params: { access_token: process.env.PAGE_ACCESS_TOKEN },
       method: "POST",
       json: {
         recipient: { id: recipientId },
@@ -12,6 +12,6 @@ exports.action = async (recipientId) => {
       },
     });
   } catch (e) {
-    throw e;
+    console.error(e);
   }
 };

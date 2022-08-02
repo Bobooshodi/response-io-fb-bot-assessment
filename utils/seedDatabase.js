@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 
 const { insertMany } = require('../services/database');
-const { logger } = require('../../services/logger');
+const { logger } = require('../services/logger');
 
 exports.seedDatabaseData = async () => {
     try {

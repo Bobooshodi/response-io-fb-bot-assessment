@@ -1,7 +1,7 @@
 const axios = require("axios").default;
 
 const { sendMessage } = require("./graph-api/sendMessages");
-const { logger } = require('../../services/logger');
+const { logger } = require('./logger');
 
 exports.processMessage = async (event) => {
   try {

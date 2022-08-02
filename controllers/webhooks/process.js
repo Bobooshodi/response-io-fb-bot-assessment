@@ -1,4 +1,3 @@
-const { processPostback } = require("../../services/postback");
 const { processMessage } = require("../../services/messages");
 const { logger } = require('../../services/logger');
 

@@ -5,6 +5,7 @@ const expressWinston = require('express-winston');
 const dotenv = require('dotenv');
 
 const routes = require('./routes-config');
+const { seedDatabaseData } = require('./utils/seedDatabase');
 
 dotenv.config();
 const app = express();
@@ -37,7 +38,13 @@ app.use(expressWinston.errorLogger({
     )
 }))
 
-app.listen(app.get("port"), function () {
-  const url = "http://localhost:" + app.set("port");
-  console.log("Application running on port: ", app.get("port"));
+app.listen(app.get("port"), async function () {
+  console.log('Seeding Database Please Wait.......');
+  const isSuccessful = await seedDatabaseData();
+
+  if (isSuccessful) {
+    console.log("Application running on port: ", app.get("port"));
+  } else {
+    console.error('Unable to seed DB Data, Shutting Down...');
+  }
 });

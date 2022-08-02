@@ -1,14 +1,14 @@
 const axios = require('axios').default;
-const Datastore = require('nedb');
 
-db = new Datastore();
+const { insertMany } = require('../services/database');
+
 
 exports.seedDatabaseData = async () => {
     try {
         const dummyData = (await axios.get(process.env.DUMMY_DATA_ENDPOINT)).data;
         
-        await db.insert(dummyData);
-        
+        const res = await insertMany(dummyData);
+
         console.log('Seeding completed Successfully');
         return true;
     } catch (e) {

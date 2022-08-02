@@ -1,8 +1,8 @@
 const { processPostback } = require("../../services/postback");
 const { processMessage } = require("../../services/messages");
+const { logger } = require('../../services/logger');
 
 exports.processWebhook = async (req, res) => {
-  console.log(req.body);
   try {
     //checking for page subscription.
     if (req.body.object === "page") {
@@ -11,7 +11,7 @@ exports.processWebhook = async (req, res) => {
       req.body.entry.forEach(function (entry) {
         // Iterate over each messaging event
         entry.messaging.forEach(function (event) {
-          console.log(event);
+          logger.info(event);
           if (event.postback) {
             processPostback(event);
           } else if (event.message) {

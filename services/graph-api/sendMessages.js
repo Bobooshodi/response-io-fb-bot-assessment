@@ -1,6 +1,5 @@
 const axios = require("axios").default;
 exports.sendMessage = async (recipientId, message) => {
-  console.log(recipientId, message);
   try {
     const res = await axios({
       url: `${process.env.GRAPH_API_ENDPOINT}/me/messages`,

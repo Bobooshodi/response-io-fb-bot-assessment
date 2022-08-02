@@ -8,7 +8,6 @@ exports.playground = async (req, res) => {
             if (err) {
                 res.status(400).send(err);
             }
-            console.log(record);
             res.status(200).send(record);
         });
     } catch (e) {

@@ -1,8 +1,7 @@
 const axios = require("axios").default;
 
-const action = require("./graph-api/actions");
 const { sendMessage } = require("./graph-api/sendMessages");
-const sendTemplate = require("./graph-api/sendTemplate");
+const { logger } = require('../../services/logger');
 
 exports.processMessage = async (event) => {
   try {
@@ -15,8 +14,8 @@ exports.processMessage = async (event) => {
     if (!event.message.is_echo) {
       const message = event.message;
       const senderID = event.sender.id;
-      console.log("Received message from senderId: " + senderID);
-      console.log("Message is: " + JSON.stringify(message));
+      logger.info("Received message from senderId: " + senderID);
+      logger.info("Message is: " + JSON.stringify(message));
       const greetingKeywords = ['hi', 'hello', 'hey', 'good'];
       let isGreeting = false;
 
@@ -29,6 +28,8 @@ exports.processMessage = async (event) => {
 
       if (isGreeting) {
         await sendMessage(senderID, { text: greetingResponses[Math.floor(Math.random()*greetingResponses.length)] });
+      } else {
+
       }
     }
   } catch (e) {

@@ -46,7 +46,7 @@ exports.find = (query) => {
                 reject(err);
             }
 
-            resolve(records);
+            return resolve(records);
         });
     });
 }
@@ -54,7 +54,33 @@ exports.find = (query) => {
 // Returns all records, or empty array if not found
 exports.findAll = () => {
     return new Promise((resolve, reject) => {
-        db.findOne({}, (err, records) => {
+        db.find({}, (err, records) => {
+            if (err) {
+                reject(err);
+            }
+
+            resolve(records);
+        });
+    });
+}
+
+// Returns Records with the matching criteria, or null if not found
+exports.findOneWithProjection = (query, projection) => {
+    return new Promise((resolve, reject) => {
+        db.findOne(query).projection(projection).exec((err, record) => {
+            if (err) {
+                reject(err);
+            }
+            
+            resolve(record);
+        });
+    });
+}
+
+// Returns Records with the matching criteria, or empty array if not found
+exports.findWithProjection = (query, projection) => {
+    return new Promise((resolve, reject) => {
+        db.findOne(query).projection(projection).exec((err, records) => {
             if (err) {
                 reject(err);
             }

@@ -1,15 +1,14 @@
 const Datastore = require('nedb');
 
+const { findOneWithProjection } = require('../services/database');
+
 db = new Datastore();
 
 exports.playground = async (req, res) => {
     try {
-        db.find({ sku: 43900 }, (err, record) => {
-            if (err) {
-                res.status(400).send(err);
-            }
-            res.status(200).send(record);
-        });
+        const result = await findOneWithProjection({ sku: 43900 }, { description: 1 });
+
+        res.send(result);
     } catch (e) {
         console.error(e);
     }

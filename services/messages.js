@@ -2,6 +2,7 @@ const axios = require("axios").default;
 
 const { sendMessage } = require("./graph-api/sendMessages");
 const { logger } = require('./logger');
+const { findOneWithProjection } = require('./database');
 
 exports.processMessage = async (event) => {
   try {
@@ -29,10 +30,34 @@ exports.processMessage = async (event) => {
       if (isGreeting) {
         await sendMessage(senderID, { text: greetingResponses[Math.floor(Math.random()*greetingResponses.length)] });
       } else {
-
+        const result = await processEnquiry(message.text);
+        await sendMessage(senderID, { text: result });
       }
     }
   } catch (e) {
     throw e;
   }
 };
+
+const processEnquiry = async (enquiry) => {
+  const enquiryParts = enquiry.split(' ');
+  const enquiryType = enquiryParts[0];
+  const productId = enquiryParts[1];
+
+  let projection = {};
+  let path = '';
+
+  if(enquiryType === '/desc') {
+    path = 'description';
+  } else if (enquiryType === '/price') {
+    path = 'price'
+  } else if (enquiryType === '/shipping') {
+    path = 'shipping'
+  }
+
+  projection[path] = 1;
+
+  const productDetail = await findOneWithProjection({ sku: parseInt(productId) }, projection);
+
+  return productDetail[path];
+}
